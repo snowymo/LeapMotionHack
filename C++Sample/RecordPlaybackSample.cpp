@@ -6,7 +6,11 @@
 * between Leap Motion and you, your company or other organization.             *
 \******************************************************************************/
 
-#undef __cplusplus
+#include "UDPClient.h"
+// Need to link with Ws2_32.lib
+#pragma comment (lib, "Ws2_32.lib")
+
+//#undef __cplusplus
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -49,7 +53,7 @@ int main(int argc, char** argv) {
         frameCount++;
         uint64_t dataWritten = 0;
         result = LeapRecordingWrite(recordingHandle, frame, &dataWritten);
-        printf("Recorded %"PRIu64" bytes for frame %"PRIu64" with %i hands.\n", dataWritten, frame->tracking_frame_id, frame->nHands);
+        printf("Recorded %\"PRIu64\" bytes for frame %\"PRIu64\" with %i hands.\n", dataWritten, frame->tracking_frame_id, frame->nHands);
       }
     }
     result = LeapRecordingClose(&recordingHandle);
@@ -70,7 +74,7 @@ int main(int argc, char** argv) {
           frame = (LEAP_TRACKING_EVENT *)malloc(nextFrameSize);
           result = LeapRecordingRead(recordingHandle, frame, nextFrameSize);
           if(LEAP_SUCCEEDED(result)){
-            printf("Read frame %"PRIu64" with %i hands.\n", frame->tracking_frame_id, frame->nHands);
+            printf("Read frame %\"PRIu64\" with %i hands.\n", frame->tracking_frame_id, frame->nHands);
           } else {
             printf("Could not read frame: %s\n", ResultString(result));
           }

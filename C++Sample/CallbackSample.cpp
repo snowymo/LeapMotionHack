@@ -6,7 +6,10 @@
 * between Leap Motion and you, your company or other organization.             *
 \******************************************************************************/
 
-#undef __cplusplus
+#include "UDPClient.h"
+// Need to link with Ws2_32.lib
+#pragma comment (lib, "Ws2_32.lib")
+//#undef __cplusplus
 
 #include <stdio.h>
 #include <stdlib.h>

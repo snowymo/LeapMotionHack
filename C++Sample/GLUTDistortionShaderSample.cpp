@@ -6,7 +6,10 @@
 * between Leap Motion and you, your company or other organization.             *
 \******************************************************************************/
 
-#undef __cplusplus
+#include "UDPClient.h"
+// Need to link with Ws2_32.lib
+#pragma comment (lib, "Ws2_32.lib")
+//#undef __cplusplus
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -96,8 +99,8 @@ static void OnImage(const LEAP_IMAGE_EVENT *imageEvent){
   //Save the distortion data if it's version id changes
   if(currentDistortionId != imageEvent->image[0].matrix_version){
     size_t distortion_size = 64 * 64 * 2;
-    distortion_buffer_left = malloc(sizeof(float) * distortion_size);
-    distortion_buffer_right = malloc(sizeof(float) * distortion_size);
+    distortion_buffer_left = (float*)malloc(sizeof(float) * distortion_size);
+    distortion_buffer_right = (float*)malloc(sizeof(float) * distortion_size);
     memcpy(distortion_buffer_left, imageEvent->image[0].distortion_matrix, sizeof(float) * distortion_size);
     memcpy(distortion_buffer_right, imageEvent->image[1].distortion_matrix, sizeof(float) * distortion_size);
     currentDistortionId = imageEvent->image[0].matrix_version;

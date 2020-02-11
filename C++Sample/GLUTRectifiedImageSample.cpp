@@ -6,7 +6,10 @@
 * between Leap Motion and you, your company or other organization.             *
 \******************************************************************************/
 
-#undef __cplusplus
+#include "UDPClient.h"
+// Need to link with Ws2_32.lib
+#pragma comment (lib, "Ws2_32.lib")
+//#undef __cplusplus
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -55,7 +58,7 @@ static void OnImage(const LEAP_IMAGE_EVENT *imageEvent){
     image_width = properties->width;
     image_height = properties->height;
     image_size = image_width*image_height;
-    image_buffer = malloc(2 * image_size);
+    image_buffer = (unsigned char*)malloc(2 * image_size);
     if (prev_image_buffer)
       free(prev_image_buffer);
     textureChanged = true;
@@ -197,8 +200,8 @@ int main(int argc, char *argv[])
   connection = OpenConnection();
   LeapSetPolicyFlags(*connection, eLeapPolicyFlag_Images, 0);
 
-  undistorted_image_left = malloc(TEX_WIDTH * TEX_HEIGHT);
-  undistorted_image_right = malloc(TEX_WIDTH * TEX_HEIGHT);
+  undistorted_image_left = (unsigned char*)malloc(TEX_WIDTH * TEX_HEIGHT);
+  undistorted_image_right = (unsigned char*)malloc(TEX_WIDTH * TEX_HEIGHT);
   while(!IsConnected){
     millisleep(250);
   }

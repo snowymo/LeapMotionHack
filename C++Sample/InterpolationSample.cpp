@@ -6,7 +6,10 @@
 * between Leap Motion and you, your company or other organization.             *
 \******************************************************************************/
 
-#undef __cplusplus
+#include "UDPClient.h"
+// Need to link with Ws2_32.lib
+#pragma comment (lib, "Ws2_32.lib")
+//#undef __cplusplus
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -56,7 +59,7 @@ int main(int argc, char** argv) {
     result = LeapGetFrameSize(*connHandle, targetFrameTime, &targetFrameSize);
     if(result == eLeapRS_Success){
       //Allocate enough memory
-      LEAP_TRACKING_EVENT* interpolatedFrame = malloc((size_t)targetFrameSize);
+      LEAP_TRACKING_EVENT* interpolatedFrame = (LEAP_TRACKING_EVENT*)malloc((size_t)targetFrameSize);
       //Get the frame
       result = LeapInterpolateFrame(*connHandle, targetFrameTime, interpolatedFrame, targetFrameSize);
       if(result == eLeapRS_Success){
